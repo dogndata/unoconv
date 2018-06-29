@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |spec|
   spec.name = 'unoconv'
-  spec.version = '0.0.2'
+  spec.version = '0.0.3'
 
   spec.authors = ['Sofus']
   spec.required_ruby_version = '>= 2.3.1'
@@ -12,5 +12,5 @@ Gem::Specification.new do |spec|
     Libre Office.
   SUM
   spec.files = `git ls-files`.split("\n")
-  spec.require_paths = ['lib', 'lib/unoconv']
+  spec.require_paths = ['lib']
 end
