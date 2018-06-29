@@ -2,8 +2,9 @@
 
 Gem::Specification.new do |spec|
   spec.name = 'unoconv'
-  spec.version = '0.0.0'
+  spec.version = '0.0.1'
 
+  spec.authors = ['Sofus']
   spec.required_ruby_version = '>= 2.3.1'
   spec.description = 'Unoconv document conversion interface for Ruby'
   spec.summary = <<-SUM
