@@ -13,7 +13,7 @@ Unoconv::Listener.open do |unoconv_listener|
       # Copy or move tmp_pdf_path to where you have to store it.
       # tmp_pdf_path is deleted after this block is executed.
     end
-  rescue DocumentNotFound, FailedToCreatePDF => e
+  rescue Unoconv::Listener::DocumentNotFound, Unoconv::Listener::FailedToCreatePDF => e
     # handle exception
   end
 end
