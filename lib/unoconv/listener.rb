@@ -34,7 +34,7 @@ class Unoconv::Listener
     instance&.stop
   end
 
-  def generate_pdf(doc_path, &block)
+  def generate_pdf(doc_path, output_format, &block)
     tmp_pdf_path = nil
 
     unless started?
@@ -49,7 +49,7 @@ class Unoconv::Listener
     # so we need to wrap it in a timeout and restart the services if they time out
     Timeout::timeout(30) do
       begin
-        tmp_pdf_path = unoconv_generate_pdf(doc_path)
+        tmp_pdf_path = unoconv_generate_pdf(doc_path, output_format)
         block.call(tmp_pdf_path)
       rescue Timeout::Error
         restart
@@ -90,11 +90,11 @@ class Unoconv::Listener
     @unoconv_pid.present?
   end
 
-  def unoconv_generate_pdf(doc_path)
+  def unoconv_generate_pdf(doc_path, output_format)
     out_path = File.join(OUTDIR, "#{SecureRandom.uuid}.pdf")
     options = [
       '--no-launch',
-      '-f pdf',
+      "-f #{output_format}",
       '-P PaperFormat=A4',
       "-o #{Shellwords.escape(out_path)}",
       Shellwords.escape(doc_path)
