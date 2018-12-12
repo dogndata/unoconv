@@ -95,7 +95,6 @@ class Unoconv::Listener
     options = [
       '--no-launch',
       '-f pdf',
-      '-P PaperFormat=A4',
       "-o #{Shellwords.escape(out_path)}",
       Shellwords.escape(doc_path)
     ]
