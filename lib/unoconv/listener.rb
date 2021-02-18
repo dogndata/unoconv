@@ -49,16 +49,26 @@ class Unoconv::Listener
     # so we need to wrap it in a timeout and restart the services if they time out
     Timeout::timeout(30) do
       begin
-        tmp_pdf_path = unoconv_generate_pdf(doc_path)
-        block.call(tmp_pdf_path)
+        document_generated_callback(doc_path, &block)
       rescue Timeout::Error
         restart
-        convert_to_pdf(doc_path, &block)
+        Timeout::timeout(30) do
+          document_generated_callback(doc_path, &block)
+        end
       end
     end
 
   ensure
-    File.delete(tmp_pdf_path) if tmp_pdf_path && File.exists?(tmp_pdf_path)
+    File.delete(tmp_pdf_path) if tmp_pdf_path && File.exist?(tmp_pdf_path)
+  end
+
+  def document_generated_callback(doc_path, &block)
+    tmp_pdf_path = unoconv_generate_pdf(doc_path)
+    if File.exist?(tmp_pdf_path)
+      block.call(tmp_pdf_path)
+    else
+      raise FailedToCreatePDF, "unable to find generated pdf"
+    end
   end
 
   def start
