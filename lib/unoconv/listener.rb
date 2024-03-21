@@ -41,7 +41,7 @@ class Unoconv::Listener
       raise NotStarted, "Call #{self.class}#start before calling #{__method__}"
     end
 
-    unless File.exists?(doc_path)
+    unless File.exist?(doc_path)
       raise DocumentNotFound, "File does not exist: #{doc_path}"
     end
 
